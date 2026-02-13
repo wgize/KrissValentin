@@ -1,0 +1,1511 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Para Ti ❤️ San Valentín</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #4ec9b0;
+        --secondary: #3a9d8f;
+        --accent: #6fd9c8;
+        --dark: #1e1e1e;
+        --light: #252526;
+        --text: #d4d4d4;
+        --bg: #0e1116;
+        --shadow: rgba(78, 201, 176, 0.15);
+        --card-bg: #1e1e1e;
+      }
+
+      body[data-theme="verde"] {
+        --primary: #4ec9b0;
+        --secondary: #3a9d8f;
+        --accent: #6fd9c8;
+      }
+
+      body[data-theme="turquesa"] {
+        --primary: #4dd0e1;
+        --secondary: #00acc1;
+        --accent: #80deea;
+      }
+
+      body[data-theme="morado"] {
+        --primary: #c586c0;
+        --secondary: #9d4e99;
+        --accent: #d8a3d6;
+      }
+
+      body[data-theme="celeste"] {
+        --primary: #569cd6;
+        --secondary: #4080bf;
+        --accent: #7fb3e8;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+        transition: background 0.5s ease;
+      }
+
+      /* Container principal - responsive */
+      .app-container {
+        max-width: 1600px;
+        margin: 0 auto;
+        min-height: 100vh;
+        background: var(--dark);
+        box-shadow: 0 0 60px var(--shadow);
+        position: relative;
+      }
+
+      /* Header con reproductor de música */
+      .music-player {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(30, 30, 30, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 15px 30px;
+        border-radius: 50px;
+        box-shadow: 0 8px 30px var(--shadow);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        z-index: 1000;
+        animation: slideDown 0.6s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translateX(-50%) translateY(-100px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(-50%) translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .music-player button {
+        background: var(--primary);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        font-size: 18px;
+        color: var(--dark);
+      }
+
+      .music-player button:hover {
+        background: var(--accent);
+        transform: scale(1.1);
+      }
+
+      .music-info {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text);
+        min-width: 200px;
+      }
+
+      .music-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      /* Layout principal */
+      .main-layout {
+        display: flex;
+        min-height: 100vh;
+        padding-top: 80px;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 250px;
+        background: linear-gradient(
+          180deg,
+          var(--sidebar-bg-start) 0%,
+          var(--sidebar-bg-end) 100%
+        );
+        padding: 40px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        transition:
+          transform 0.3s ease,
+          background 0.5s ease;
+        position: relative;
+        z-index: 100;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+        box-shadow: 2px 0 20px rgba(0, 0, 0, 0.5);
+      }
+
+      .sidebar-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--primary);
+        text-align: center;
+        margin-bottom: 30px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+      }
+
+      .nav-button {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 18px 25px;
+        border-radius: 15px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: var(--text);
+        text-align: left;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+      }
+
+      .nav-button::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background: var(--primary);
+        transform: scaleY(0);
+        transition: transform 0.3s ease;
+      }
+
+      .nav-button:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(10px);
+        box-shadow: 0 5px 15px var(--shadow);
+        border-color: var(--primary);
+      }
+
+      .nav-button:hover::before {
+        transform: scaleY(1);
+      }
+
+      .nav-button.active {
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 5px 20px var(--shadow);
+        font-weight: 600;
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+
+      .nav-button.active::before {
+        transform: scaleY(1);
+      }
+
+      /* Botón menú móvil */
+      .menu-toggle {
+        display: none;
+        position: fixed;
+        top: 90px;
+        left: 20px;
+        z-index: 1001;
+        background: var(--primary);
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 4px 15px var(--shadow);
+        font-size: 24px;
+        color: var(--dark);
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+      }
+
+      .menu-toggle.hidden-btn {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.8);
+      }
+
+      .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 99;
+      }
+
+      /* Contenido principal */
+      .main-content {
+        flex: 1;
+        padding: 40px;
+        padding-bottom: 360px; /* Espacio para el terminal */
+        overflow-y: auto;
+        animation: fadeIn 0.6s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Sección Inicio */
+      .banner {
+        width: 100%;
+        height: 400px;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 40px;
+        box-shadow: 0 10px 40px var(--shadow);
+      }
+
+      .banner-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.7;
+        animation: bannerChange 15s infinite;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 48px;
+      }
+
+      /* Para cuando se usa imagen de fondo */
+      .banner-image.with-bg-image {
+        background-size: cover;
+        background-position: center;
+      }
+
+      /* Para cuando se usa img tag */
+      .banner-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      @keyframes bannerChange {
+        0%,
+        25% {
+          background: linear-gradient(135deg, #e8b4b8 0%, #a8dadc 100%);
+        }
+        30%,
+        55% {
+          background: linear-gradient(135deg, #d4c5e2 0%, #f4a3a8 100%);
+        }
+        60%,
+        85% {
+          background: linear-gradient(135deg, #ffd4ba 0%, #e8b4b8 100%);
+        }
+        90%,
+        100% {
+          background: linear-gradient(135deg, #b8e6d5 0%, #a8dadc 100%);
+        }
+      }
+
+      .banner-text {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 40px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+        color: white;
+      }
+
+      .banner-text h1 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 48px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .banner-text p {
+        font-size: 18px;
+        opacity: 0.95;
+      }
+
+      .two-columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .card {
+        background: var(--card-bg);
+        border-radius: 20px;
+        padding: 35px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px var(--shadow);
+        border-color: var(--primary);
+      }
+
+      .card.clickable {
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .card.clickable:active {
+        transform: translateY(-2px) scale(0.98);
+      }
+
+      .card-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 25px;
+        border-bottom: 3px solid var(--primary);
+        padding-bottom: 15px;
+      }
+
+      .card-image {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px var(--shadow);
+        animation: cardImageChange 12s infinite;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 72px;
+      }
+
+      /* Para cuando se usa imagen de fondo */
+      .card-image.with-bg-image {
+        background-size: cover;
+        background-position: center;
+      }
+
+      /* Para cuando se usa img tag */
+      .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 15px;
+      }
+
+      @keyframes cardImageChange {
+        0%,
+        30% {
+          background: linear-gradient(135deg, #ffd4ba 0%, #e8b4b8 100%);
+        }
+        35%,
+        65% {
+          background: linear-gradient(135deg, #e8b4b8 0%, #d4c5e2 100%);
+        }
+        70%,
+        100% {
+          background: linear-gradient(135deg, #b8e6d5 0%, #a8dadc 100%);
+        }
+      }
+
+      .message-section {
+        line-height: 1.8;
+        font-size: 16px;
+        color: var(--text);
+      }
+
+      .message-section p {
+        margin-bottom: 15px;
+      }
+
+      .separator {
+        height: 2px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--primary),
+          transparent
+        );
+        margin: 25px 0;
+      }
+
+      .info-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .info-label {
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .info-value {
+        color: var(--text);
+      }
+
+      /* Sección Emociones */
+      .emotion-card {
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        color: white;
+        transition: all 0.3s ease;
+      }
+
+      .emotion-card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 30px var(--shadow);
+      }
+
+      .emotion-card.clickable {
+        cursor: pointer;
+      }
+
+      .emotion-card.clickable:active {
+        transform: scale(0.98);
+      }
+
+      .emotion-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .emotion-text {
+        font-size: 15px;
+        line-height: 1.7;
+        opacity: 0.95;
+      }
+
+      .theme-selector {
+        background: var(--card-bg);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .theme-selector p {
+        color: var(--text);
+      }
+
+      .theme-colors {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 25px 0;
+      }
+
+      .theme-color {
+        height: 80px;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 3px solid transparent;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .theme-color::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 30px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .theme-color:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      .theme-color.active {
+        border-color: var(--primary);
+      }
+
+      .theme-color.active::after {
+        opacity: 1;
+      }
+
+      .theme-verde {
+        background: linear-gradient(135deg, #4ec9b0, #3a9d8f);
+      }
+      .theme-turquesa {
+        background: linear-gradient(135deg, #4dd0e1, #00acc1);
+      }
+      .theme-morado {
+        background: linear-gradient(135deg, #c586c0, #9d4e99);
+      }
+      .theme-celeste {
+        background: linear-gradient(135deg, #569cd6, #4080bf);
+      }
+
+      /* Sección Galería */
+      .gallery-container {
+        padding: 40px 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-behavior: smooth;
+        /* Ocultar scrollbar */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+      }
+      /* Ocultar scrollbar en Chrome, Safari y Opera */
+      .gallery-container::-webkit-scrollbar {
+        display: none;
+      }
+      .gallery-strip {
+        display: flex;
+        gap: 30px;
+        padding: 20px;
+        min-width: max-content;
+      }
+
+      .polaroid {
+        width: 300px;
+        background: var(--card-bg);
+        padding: 20px 20px 60px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        transform: rotate(-2deg);
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        flex-shrink: 0;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .polaroid:nth-child(even) {
+        transform: rotate(2deg);
+      }
+
+      .polaroid:hover {
+        transform: rotate(0deg) scale(1.05);
+        box-shadow: 0 20px 50px var(--shadow);
+        z-index: 10;
+        border-color: var(--primary);
+      }
+
+      .polaroid.center {
+        transform: rotate(0deg) scale(1.1);
+        box-shadow: 0 20px 50px var(--shadow);
+        z-index: 5;
+        border-color: var(--primary);
+      }
+
+      .polaroid-image {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 18px;
+        border-radius: 5px;
+      }
+
+      .polaroid-caption {
+        margin-top: 20px;
+        text-align: center;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 18px;
+        color: var(--text);
+      }
+
+      /* Terminal/Consola */
+      .terminal {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 400px;
+        height: 300px;
+        background: rgba(45, 49, 66, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        animation: slideUp 0.5s ease;
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .terminal-header {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .terminal-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+
+      .dot-red {
+        background: #ff5f56;
+      }
+      .dot-yellow {
+        background: #ffbd2e;
+      }
+      .dot-green {
+        background: #27c93f;
+      }
+
+      .terminal-title {
+        flex: 1;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .terminal-body {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        font-family: "Courier New", monospace;
+        font-size: 13px;
+        line-height: 1.6;
+        color: #a8dadc;
+      }
+
+      .terminal-body::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .terminal-body::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .terminal-body::-webkit-scrollbar-thumb {
+        background: rgba(168, 218, 220, 0.3);
+        border-radius: 4px;
+      }
+
+      .terminal-line {
+        margin-bottom: 8px;
+        animation: typeLine 0.5s ease;
+      }
+
+      @keyframes typeLine {
+        from {
+          opacity: 0;
+          transform: translateX(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      .terminal-prompt {
+        color: var(--primary);
+        font-weight: bold;
+      }
+
+      .terminal-success {
+        color: #27c93f;
+      }
+
+      .terminal-info {
+        color: #5dade2;
+      }
+
+      /* Responsive */
+      @media (max-width: 1200px) {
+        .app-container {
+          max-width: 100%;
+        }
+      }
+
+      @media (max-width: 968px) {
+        .two-columns {
+          grid-template-columns: 1fr;
+        }
+
+        .menu-toggle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .sidebar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          height: 100vh;
+          transform: translateX(-100%);
+          box-shadow: 5px 0 20px rgba(0, 0, 0, 0.2);
+          border-radius: 0;
+          border-top-right-radius: 20px;
+          border-bottom-right-radius: 20px;
+        }
+
+        .sidebar.active {
+          transform: translateX(0);
+        }
+
+        .sidebar-overlay.active {
+          display: block;
+        }
+
+        .main-content {
+          padding: 20px;
+          padding-bottom: 220px; /* Espacio para terminal más pequeño en móvil */
+        }
+
+        .terminal {
+          width: 100%;
+          height: 200px; /* Reducido de 250px a 200px */
+          bottom: 0;
+          right: 0;
+          left: 0;
+          border-radius: 0;
+          border-top-left-radius: 20px;
+          border-top-right-radius: 20px;
+        }
+
+        .music-player {
+          width: calc(100% - 40px);
+          left: 20px;
+          transform: none;
+          justify-content: space-between;
+        }
+
+        .music-info {
+          min-width: auto;
+          flex: 1;
+        }
+
+        .banner {
+          height: 300px;
+        }
+
+        .banner-text h1 {
+          font-size: 32px;
+        }
+
+        .polaroid {
+          width: 250px;
+        }
+
+        .polaroid-image {
+          height: 280px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .main-layout {
+          padding-top: 70px;
+        }
+
+        .main-content {
+          padding-bottom: 220px;
+        }
+
+        .banner-text {
+          padding: 20px;
+        }
+
+        .banner-text h1 {
+          font-size: 24px;
+        }
+
+        .banner-text p {
+          font-size: 14px;
+        }
+
+        .card {
+          padding: 20px;
+        }
+
+        .card-title {
+          font-size: 24px;
+        }
+
+        .theme-colors {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      /* Utilidades */
+      .hidden {
+        display: none;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.6s ease;
+      }
+    </style>
+  </head>
+  <body data-theme="verde">
+    <div class="app-container">
+      <!-- Reproductor de Música -->
+      <div class="music-player">
+        <div class="music-controls">
+          <button id="prevBtn">⏮</button>
+          <button id="playBtn">▶</button>
+          <button id="nextBtn">⏭</button>
+        </div>
+        <div class="music-info">
+          <div id="songTitle">Música romántica</div>
+        </div>
+        <audio id="audioPlayer" loop></audio>
+      </div>
+
+      <!-- Botón menú móvil -->
+      <button class="menu-toggle" id="menuToggle">☰</button>
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <div class="main-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+          <div class="sidebar-title">Para ti bb</div>
+          <button class="nav-button active" data-section="inicio">
+            Inicio
+          </button>
+          <button class="nav-button" data-section="emociones">Emociones</button>
+          <button class="nav-button" data-section="galeria">Galería</button>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="main-content">
+          <!-- Sección Inicio -->
+          <div id="inicio" class="content-section">
+            <div class="banner">
+              <!-- Cambia "banner.jpg" por el nombre de tu imagen -->
+              <img src="banner.png" alt="Banner" class="banner-image" />
+              <div class="banner-text">
+                <h1>Este es mi regalo para ti</h1>
+                <p>
+                  Un pequeño rincón digital lleno de amor y recuerdos especiales
+                </p>
+              </div>
+            </div>
+
+            <div class="two-columns">
+              <!-- Para Ti -->
+              <div class="card clickable" id="cardParaTi">
+                <h2 class="card-title">💝 Para Ti</h2>
+                <!-- Cambia "para-ti.jpg" por el nombre de tu imagen -->
+                <img src="parati.png" alt="Para Ti" class="card-image" />
+                <div class="message-section">
+                  <p>
+                    Sé que no es mucho, pero espero al menos te saque una
+                    sonrisa :c
+                  </p>
+                  <div class="separator"></div>
+                  <p>
+                    Gracias por estar aquí, por ser mi compañera, mi amiga y mi
+                    amor. Eres la persona más increíble que he conocido y cada
+                    día a tu lado es un regalo que valoro profundamente.
+                  </p>
+                  <div class="separator"></div>
+                  <p>
+                    Este San Valentín quiero recordarte que mi amor por ti crece
+                    cada día así como mi deseo de hacerte feliz y esta es una
+                    pequeña muestra de ello.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Info -->
+              <div class="card clickable" id="cardInfo">
+                <h2 class="card-title">💕 Nosotros</h2>
+                <!-- Cambia "nosotros.jpg" por el nombre de tu imagen -->
+                <img src="nosotros.png" alt="Nosotros" class="card-image" />
+                <div class="info-section">
+                  <div class="info-item">
+                    <span class="info-label">Nombre:</span>
+                    <span class="info-value">Kriss Nycole</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Desde:</span>
+                    <span class="info-value">El día más feliz de mi vida</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Días juntos:</span>
+                    <span class="info-value">600</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Recuerdos:</span>
+                    <span class="info-value">Menos de los que quiero</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Persona Favorita:</span>
+                    <span class="info-value">Yo (creo)</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Lugar favorito:</span>
+                    <span class="info-value">Mi casa</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Momento favorito:</span>
+                    <span class="info-value">Noche de Humbe :c</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección Emociones -->
+          <div id="emociones" class="content-section hidden">
+            <div class="two-columns">
+              <!-- Columna de Emociones -->
+              <div>
+                <div class="emotion-card clickable" id="emotionAmor">
+                  <div class="emotion-title">
+                    <span>💖</span>
+                    <span>Amor</span>
+                  </div>
+                  <div class="emotion-text">
+                    Razones para marte jamás faltaron, y cada día descubro
+                    nuevas. Llegaste en el momento exacto que debías y me
+                    gustaría que nunca te fueras. Eres mi alegría, mi paz, mi
+                    inspiración y mi mayor bendición. Gracias por ser tú, por
+                    amarme y por creer en mí.
+                  </div>
+                </div>
+
+                <div class="emotion-card clickable" id="emotionFelicidad">
+                  <div class="emotion-title">
+                    <span>😡</span>
+                    <span>Enojo</span>
+                  </div>
+                  <div class="emotion-text">
+                    Como todo, tienes tus defectos, pero eso no hace más que
+                    aumentar mi amor por ti. A veces me sacas de quicio, pero
+                    incluso en esos momentos, no puedo evitar amarte más.
+                    Excepto las veces que eres media pendeja okno pero no
+                    importa, con todo y lo infiel que eres te quiero xd
+                  </div>
+                </div>
+
+                <div class="emotion-card clickable" id="emotionGratitud">
+                  <div class="emotion-title">
+                    <span>🥵 </span>
+                    <span>Compatibilidad</span>
+                  </div>
+                  <div class="emotion-text">
+                    Algo que siempre me ha gustado de tí es el increíble
+                    esfuerzo que haces por entenderme y compartir más conmigo,
+                    como cuando aprendiste a jugar Dota o DBD jajsdjasj te adoro
+                    por todos esos detalles que me hiciste :3
+                  </div>
+                </div>
+              </div>
+
+              <!-- Columna de Temas -->
+              <div>
+                <div class="theme-selector">
+                  <h2 class="card-title">🎨 Tema</h2>
+                  <p style="margin-bottom: 20px; color: var(--text)">
+                    Elige el color que más te guste para personalizar esta
+                    página
+                  </p>
+                  <div class="theme-colors">
+                    <div
+                      class="theme-color theme-verde active"
+                      data-theme="verde"
+                    ></div>
+                    <div
+                      class="theme-color theme-turquesa"
+                      data-theme="turquesa"
+                    ></div>
+                    <div
+                      class="theme-color theme-morado"
+                      data-theme="morado"
+                    ></div>
+                    <div
+                      class="theme-color theme-celeste"
+                      data-theme="celeste"
+                    ></div>
+                  </div>
+                </div>
+
+                <div
+                  class="card clickable"
+                  id="cardPensamientos"
+                  style="margin-top: 30px"
+                >
+                  <h2 class="card-title">✨ Pensamientos</h2>
+                  <div class="message-section">
+                    <p>
+                      Eres la razón por la que sonrío sin motivo aparente, la
+                      inspiración detrás de mis mejores momentos y la luz que
+                      guía mi camino.
+                    </p>
+                    <div class="separator"></div>
+                    <p>
+                      En un mundo lleno de incertidumbres, tú eres mi constante,
+                      mi certeza, mi hogar.
+                    </p>
+                    <div class="separator"></div>
+                    <p>
+                      Contigo he aprendido que el amor verdadero no es perfecto,
+                      pero es real, sincero y eterno.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección Galería -->
+          <div id="galeria" class="content-section hidden">
+            <h1
+              class="card-title"
+              style="text-align: center; font-size: 42px; margin-bottom: 40px"
+            >
+              Nuestros Momentos
+            </h1>
+            <div class="gallery-container" id="galleryContainer">
+              <div class="gallery-strip" id="galleryStrip">
+                <div class="polaroid">
+                  <img src="1.jpg" alt="Foto 1" class="polaroid-image" />
+                  <div class="polaroid-caption">
+                    Una de tus tantas visitas por cusquito jasjdsa
+                  </div>
+                </div>
+                <div class="polaroid">
+                  <img src="2.jpg" alt="Foto 2" class="polaroid-image" />
+                  <div class="polaroid-caption">
+                    Uno de los momentos más importantes para ti, gracias por
+                    compartirlos conmigo :c
+                  </div>
+                </div>
+                <div class="polaroid center">
+                  <img src="3.jpg" alt="Foto 3" class="polaroid-image" />
+                  <div class="polaroid-caption">
+                    jasjdasj siempre de tímida verdad? ni yo que soy feo :D
+                  </div>
+                </div>
+                <div class="polaroid">
+                  <img src="4.jpg" alt="Foto 4" class="polaroid-image" />
+                  <div class="polaroid-caption">
+                    Gracias por ser la única en acordarte de mi cumple :c
+                  </div>
+                </div>
+                <div class="polaroid">
+                  <img src="5.jpg" alt="Foto 5" class="polaroid-image" />
+                  <div class="polaroid-caption">
+                    Improvisando jalouin pero con toda la actitud ! xd
+                  </div>
+                </div>
+                <div class="polaroid">
+                  <img src="6.jpg" alt="Foto 6" class="polaroid-image" />
+                  <div class="polaroid-caption">
+                    Molestos y casi divorciados pero la foto no pudo faltar
+                  </div>
+                </div>
+                <div class="polaroid">
+                  <img src="7.jpg" alt="Foto 7" class="polaroid-image" />
+                  <div class="polaroid-caption">
+                    Foto antes de la tragedia xd
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <!-- Terminal -->
+      <div class="terminal">
+        <div class="terminal-header">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">Sistema de Amor v1.0</span>
+        </div>
+        <div class="terminal-body" id="terminalBody">
+          <div class="terminal-line">
+            <span class="terminal-prompt">❤️ ~</span> Iniciando sistema...
+          </div>
+          <div class="terminal-line">
+            <span class="terminal-success">✓</span> Cargando amor.exe
+          </div>
+          <div class="terminal-line">
+            <span class="terminal-success">✓</span> Recuerdos activados
+          </div>
+          <div class="terminal-line">
+            <span class="terminal-success">✓</span> Sentimientos sincronizados
+          </div>
+          <div class="terminal-line">
+            <span class="terminal-info">→</span> ¡Bienvenida mi amor! ❤️ No
+            olvides darle play a tu música favorita
+          </div>
+          <div class="terminal-line">
+            <span class="terminal-prompt">❤️ ~</span> Este es tu espacio
+            especial
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Terminal
+      const terminal = document.getElementById("terminalBody");
+
+      function writeToTerminal(messages) {
+        terminal.innerHTML = "";
+        messages.forEach((msg, index) => {
+          setTimeout(() => {
+            const line = document.createElement("div");
+            line.className = "terminal-line";
+            line.innerHTML = msg;
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+          }, index * 150);
+        });
+      }
+
+      // Eventos de click en las tarjetas
+      const cardParaTi = document.getElementById("cardParaTi");
+      const cardInfo = document.getElementById("cardInfo");
+      const emotionAmor = document.getElementById("emotionAmor");
+      const emotionFelicidad = document.getElementById("emotionFelicidad");
+      const emotionGratitud = document.getElementById("emotionGratitud");
+      const cardPensamientos = document.getElementById("cardPensamientos");
+
+      if (cardParaTi) {
+        cardParaTi.addEventListener("click", () => {
+          writeToTerminal([
+            '<span class="terminal-prompt">💝 ~</span> Tarjeta "Para Ti" seleccionada',
+            '<span class="terminal-success">✓</span> Cargando mensajes especiales',
+            '<span class="terminal-info">→</span> Estos son mis sentimientos más profundos',
+            '<span class="terminal-info">→</span> Cada palabra está escrita desde el corazón ❤️',
+          ]);
+        });
+      }
+
+      if (cardInfo) {
+        cardInfo.addEventListener("click", () => {
+          writeToTerminal([
+            '<span class="terminal-prompt">💕 ~</span> Explorando "Nosotros"',
+            '<span class="terminal-success">✓</span> Información de la relación',
+            '<span class="terminal-info">→</span> Cada día contigo es un nuevo recuerdo',
+            '<span class="terminal-info">→</span> Nuestros momentos son invaluables 👫',
+          ]);
+        });
+      }
+
+      if (emotionAmor) {
+        emotionAmor.addEventListener("click", () => {
+          writeToTerminal([
+            '<span class="terminal-prompt">💖 ~</span> Emoción: Amor',
+            '<span class="terminal-success">✓</span> Analizando sentimientos',
+            '<span class="terminal-info">→</span> Mi amor por ti es infinito e incondicional',
+            '<span class="terminal-info">→</span> Cada latido de mi corazón te pertenece 💖',
+          ]);
+        });
+      }
+
+      if (emotionFelicidad) {
+        emotionFelicidad.addEventListener("click", () => {
+          writeToTerminal([
+            '<span class="terminal-prompt">😡 ~</span> Emoción: Enojo',
+            '<span class="terminal-success">✓</span> Respirando para aguantarte ...',
+            '<span class="terminal-info">→</span> Mentira xd me gusta las locas bb',
+          ]);
+        });
+      }
+
+      if (emotionGratitud) {
+        emotionGratitud.addEventListener("click", () => {
+          writeToTerminal([
+            '<span class="terminal-prompt">xd ~</span> Emoción: Compatibilidad',
+            '<span class="terminal-success">✓</span> Contando bendiciones',
+            '<span class="terminal-info">→</span> Sabes que no nos podemos despegar a vecesxd',
+          ]);
+        });
+      }
+
+      if (cardPensamientos) {
+        cardPensamientos.addEventListener("click", () => {
+          writeToTerminal([
+            '<span class="terminal-prompt">✨ ~</span> Tarjeta "Pensamientos" activada',
+            '<span class="terminal-success">✓</span> Reflexiones cargadas',
+            '<span class="terminal-info">→</span> Estos pensamientos te acompañan siempre',
+            '<span class="terminal-info">→</span> Eres mi inspiración diaria ✨',
+          ]);
+        });
+      }
+
+      // Navegación
+      const navButtons = document.querySelectorAll(".nav-button");
+      const sections = document.querySelectorAll(".content-section");
+
+      navButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const sectionId = button.dataset.section;
+
+          // Actualizar botones activos
+          navButtons.forEach((btn) => btn.classList.remove("active"));
+          button.classList.add("active");
+
+          // Mostrar sección correspondiente
+          sections.forEach((section) => {
+            section.classList.add("hidden");
+            if (section.id === sectionId) {
+              section.classList.remove("hidden");
+              section.classList.add("fade-in");
+            }
+          });
+
+          // Cerrar sidebar en móvil
+          sidebar.classList.remove("active");
+          sidebarOverlay.classList.remove("active");
+          menuToggle.classList.remove("hidden-btn"); // Mostrar el botón cuando se cierra
+
+          // Mensajes del terminal según la sección
+          const terminalMessages = {
+            inicio: [
+              '<span class="terminal-prompt">❤️ ~</span> Navegando a Inicio...',
+              '<span class="terminal-success">✓</span> Cargando mensajes de amor',
+              '<span class="terminal-success">✓</span> Información de la relación cargada',
+              '<span class="terminal-info">→</span> Aquí está todo lo que te hace especial ❤️',
+            ],
+            emociones: [
+              '<span class="terminal-prompt">❤️ ~</span> Accediendo a Emociones...',
+              '<span class="terminal-success">✓</span> Analizando sentimientos',
+              '<span class="terminal-success">✓</span> Selector de temas disponible',
+              '<span class="terminal-info">→</span> Estos son los sentimientos que guardas en mi corazón 💕',
+            ],
+            galeria: [
+              '<span class="terminal-prompt">❤️ ~</span> Abriendo Galería...',
+              '<span class="terminal-success">✓</span> Cargando recuerdos especiales',
+              '<span class="terminal-success">✓</span> Fotos polaroid listas',
+              '<span class="terminal-info">→</span> Cada foto cuenta una historia de nosotros 📸',
+            ],
+          };
+
+          writeToTerminal(terminalMessages[sectionId]);
+        });
+      });
+
+      // Menú móvil
+      const menuToggle = document.getElementById("menuToggle");
+      const sidebar = document.getElementById("sidebar");
+      const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+      menuToggle.addEventListener("click", () => {
+        sidebar.classList.add("active");
+        sidebarOverlay.classList.add("active");
+        menuToggle.classList.add("hidden-btn"); // Ocultar el botón cuando se abre el sidebar
+      });
+
+      sidebarOverlay.addEventListener("click", () => {
+        sidebar.classList.remove("active");
+        sidebarOverlay.classList.remove("active");
+        menuToggle.classList.remove("hidden-btn"); // Mostrar el botón cuando se cierra el sidebar
+      });
+
+      // Temas
+      const themeButtons = document.querySelectorAll(".theme-color");
+
+      themeButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const theme = button.dataset.theme;
+          document.body.setAttribute("data-theme", theme);
+
+          themeButtons.forEach((btn) => btn.classList.remove("active"));
+          button.classList.add("active");
+
+          const themeNames = {
+            verde: "Verde Code",
+            turquesa: "Turquesa Ocean",
+            morado: "Morado Mystic",
+            celeste: "Celeste Sky",
+          };
+
+          writeToTerminal([
+            '<span class="terminal-prompt">❤️ ~</span> Cambiando tema...',
+            `<span class="terminal-success">✓</span> Tema "${themeNames[theme]}" aplicado`,
+            '<span class="terminal-info">→</span> ¡Qué bonito se ve! 🎨',
+          ]);
+        });
+      });
+
+      // Galería
+      const galleryContainer = document.getElementById("galleryContainer");
+      const galleryStrip = document.getElementById("galleryStrip");
+
+      if (galleryContainer) {
+        galleryContainer.addEventListener("scroll", () => {
+          const polaroids = document.querySelectorAll(".polaroid");
+          const containerCenter =
+            galleryContainer.offsetLeft + galleryContainer.offsetWidth / 2;
+
+          polaroids.forEach((polaroid) => {
+            const polaroidCenter =
+              polaroid.offsetLeft + polaroid.offsetWidth / 2;
+            const distance = Math.abs(containerCenter - polaroidCenter);
+
+            if (distance < 150) {
+              polaroid.classList.add("center");
+            } else {
+              polaroid.classList.remove("center");
+            }
+          });
+        });
+      }
+
+      // Reproductor de música
+      const audioPlayer = document.getElementById("audioPlayer");
+      const playBtn = document.getElementById("playBtn");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const songTitle = document.getElementById("songTitle");
+
+      // Array de canciones (cambia los nombres por tus archivos de música)
+      const playlist = [
+        { title: "Fantasmas", src: "Fantasmas.mp3" },
+        { title: "Brillas", src: "Brillas.mp3" },
+        { title: "Luna", src: "Luna.mp3" },
+        { title: "Verte así", src: "Verte así.mp3" },
+        { title: "Niña Bonita", src: "NiñaBonita.mp3" },
+      ];
+
+      let currentSong = 0;
+      let isPlaying = false;
+
+      function loadSong(index) {
+        if (playlist[index].src) {
+          audioPlayer.src = playlist[index].src;
+          songTitle.textContent = playlist[index].title;
+        } else {
+          songTitle.textContent = playlist[index].title + " (Sin audio)";
+        }
+      }
+
+      playBtn.addEventListener("click", () => {
+        if (isPlaying) {
+          audioPlayer.pause();
+          playBtn.textContent = "▶";
+          isPlaying = false;
+          writeToTerminal([
+            '<span class="terminal-prompt">🎵 ~</span> Música pausada',
+            '<span class="terminal-info">→</span> Presiona play cuando quieras continuar ▶',
+          ]);
+        } else {
+          if (playlist[currentSong].src) {
+            audioPlayer.play();
+            playBtn.textContent = "⏸";
+            isPlaying = true;
+            writeToTerminal([
+              '<span class="terminal-prompt">🎵 ~</span> Reproduciendo música...',
+              `<span class="terminal-success">✓</span> ${playlist[currentSong].title}`,
+              '<span class="terminal-info">→</span> Disfruta de la música del amor 🎶',
+            ]);
+          } else {
+            writeToTerminal([
+              '<span class="terminal-prompt">🎵 ~</span> No hay audio cargado',
+              '<span class="terminal-info">→</span> Agrega tus canciones favoritas para escucharlas aquí',
+            ]);
+          }
+        }
+      });
+
+      prevBtn.addEventListener("click", () => {
+        currentSong = (currentSong - 1 + playlist.length) % playlist.length;
+        loadSong(currentSong);
+        if (isPlaying && playlist[currentSong].src) {
+          audioPlayer.play();
+        }
+        writeToTerminal([
+          '<span class="terminal-prompt">🎵 ~</span> Canción anterior',
+          `<span class="terminal-info">→</span> ${playlist[currentSong].title}`,
+        ]);
+      });
+
+      nextBtn.addEventListener("click", () => {
+        currentSong = (currentSong + 1) % playlist.length;
+        loadSong(currentSong);
+        if (isPlaying && playlist[currentSong].src) {
+          audioPlayer.play();
+        }
+        writeToTerminal([
+          '<span class="terminal-prompt">🎵 ~</span> Siguiente canción',
+          `<span class="terminal-info">→</span> ${playlist[currentSong].title}`,
+        ]);
+      });
+
+      // Cargar primera canción
+      loadSong(currentSong);
+
+      // Auto-play siguiente canción
+      audioPlayer.addEventListener("ended", () => {
+        nextBtn.click();
+      });
+    </script>
+  </body>
+</html>
